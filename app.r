@@ -7,7 +7,7 @@
 # Author Comment:
 # I have tried to code this according to the Google R Style Guide to improve readability:
 # https://google.github.io/styleguide/Rguide.xml
-# For any quenstions or comments you can contact me at j.a.m.maas@uu.nl.
+# For any questions or comments you can contact me at j.a.m.maas@uu.nl.
 
 # File description:
 # This is only the source file for the application. The UI and Server are loaded and started.

@@ -45,7 +45,7 @@ dashboardSidebar(width = 240,
                                    "Kimberley Lek"),align="right", style = "font-size: 10pt"),
                              
                              div("Shiny source files:",
-                                 a(href="",
+                                 a(href="https://github.com/EducationalShinyUU/samplingmean-meandiff",
                                    target="_blank","GitHub"),align="right", style = "font-size: 10pt")
                              ) #end sidebarMenu
                  ), #end dashboardsidebar
