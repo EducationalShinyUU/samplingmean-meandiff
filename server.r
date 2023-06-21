@@ -224,7 +224,7 @@ server <- function(input, output, session) {
     
     sample$means2_1      <- c(sample$means2_1, mean(pop$population2_1[sample$sample2_1]))
     sample$means2_2      <- c(sample$means2_2, mean(pop$population2_1[sample$sample2_1]))
-    sample$means2_diff   <- sample$means2_1 - sample$means2_2
+    sample$means2_diff   <- c(sample$means2_diff, mean(pop$population2_1[sample$sample2_1])-mean(pop$population2_2[sample$sample2_2]))
   }
   )
   
@@ -256,7 +256,7 @@ server <- function(input, output, session) {
      }
       sample$means2_1      <- c(sample$means2_1, mean(pop$population2_1[sample$sample2_1]))
       sample$means2_2      <- c(sample$means2_2, mean(pop$population2_2[sample$sample2_2]))
-      sample$means2_diff   <- sample$means2_1 - sample$means2_2
+      sample$means2_diff   <- c(sample$means2_diff, mean(pop$population2_1[sample$sample2_1])-mean(pop$population2_2[sample$sample2_2]))
    }
   }
   )
