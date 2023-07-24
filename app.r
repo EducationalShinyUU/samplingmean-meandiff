@@ -1,7 +1,7 @@
 # Copyright statement:
-# This shiny apllication is developed by Lientje Maas to be used for educational purposes.
+# This shiny application is developed by Lientje Maas to be used for educational purposes.
 # Is is part of a program sponsered by the Education Incentive Funds of Utrecht University. 
-# The lay-out for the shiny applications for this program is developed by Kimberley Lek. 
+# The layout for the shiny applications for this program is developed by Kimberley Lek. 
 # The application is licensed under the GNU General Public License V3.0 
 
 # Author Comment:

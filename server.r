@@ -1,13 +1,13 @@
 # Copyright statement:
 # This shiny application is developed by Lientje Maas to be used for educational purposes.
 # Is is part of a program sponsered by the Education Incentive Funds of Utrecht University. 
-# The lay-out for the shiny applications for this program is developed by Kimberley Lek. 
+# The layout for the shiny applications for this program is developed by Kimberley Lek. 
 # The application is licensed under the GNU General Public License V3.0 
 
 # Author Comment:
 # I have tried to code this according to the Google R Style Guide to improve readability:
 # https://google.github.io/styleguide/Rguide.xml
-# For any quenstions or comments you can contact me at j.a.m.maas@uu.nl.
+# For any questions or comments you can contact me at j.a.m.maas@uu.nl.
 
 # File description:
 # This file contains the server for the application related to sampling distributions.
@@ -196,6 +196,35 @@ server <- function(input, output, session) {
   }
   )
   
+  observeEvent(input$sample1000button,{
+    for(i in 1:1000){
+      
+      # ensure value falls in range of histogram
+      toplot <- 10; xlowlim <- xuplim <- 1
+      while(!(toplot > xlowlim & toplot < xuplim)){
+        
+        if(input$sample.size == 10){
+          sample$sample     <- sample(x=(1:N), size = 10, replace = F)
+        }
+        if(input$sample.size == 30){
+          sample$sample   <- sample(x=(1:N), size = 30, replace = F)
+        }
+        if(input$sample.size == 100){
+          sample$sample   <- sample(x=(1:N), size = 100, replace = F)
+        }
+        
+        # define value to plot and range of the histogram for the while loop check
+        toplot  <- mean(pop$population[sample$sample])
+        xlowlim <- floor(mean(pop$population)   - 3.5*sd(pop$population)/sqrt(10))
+        xuplim  <- ceiling(mean(pop$population) + 3.5*sd(pop$population)/sqrt(10))
+        
+      }
+      
+      sample$means      <- c(sample$means, mean(pop$population[sample$sample]))
+    }
+  }
+  )
+  
   observeEvent(input$samplebutton2,{
     
     # ensure value falls in range of histogram
@@ -258,6 +287,39 @@ server <- function(input, output, session) {
       sample$means2_2      <- c(sample$means2_2, mean(pop$population2_2[sample$sample2_2]))
       sample$means2_diff   <- c(sample$means2_diff, mean(pop$population2_1[sample$sample2_1])-mean(pop$population2_2[sample$sample2_2]))
    }
+  }
+  )
+  
+  observeEvent(input$sample1000button2,{
+    for(i in 1:1000){
+      
+      # ensure value falls in range of histogram
+      toplot <- 10; xlowlim <- xuplim <- 1
+      while(!(toplot > xlowlim & toplot < xuplim)){
+        
+        if(input$sample.size2 == 10){
+          sample$sample2_1  <- sample(x=(1:N/2), size = 5, replace = F)
+          sample$sample2_2  <- sample(x=(1:N/2), size = 5, replace = F)
+        }
+        if(input$sample.size2 == 30){
+          sample$sample2_1     <- sample(x=(1:N/2), size = 15, replace = F)
+          sample$sample2_2     <- sample(x=(1:N/2), size = 15, replace = F)
+        }
+        if(input$sample.size2 == 100){
+          sample$sample2_1     <- sample(x=(1:N/2), size = 50, replace = F)
+          sample$sample2_2     <- sample(x=(1:N/2), size = 50, replace = F)
+        }
+        
+        # define value to plot and range of the histogram for the while loop check
+        toplot  <- mean(pop$population2_1[sample$sample2_1]) - mean(pop$population2_2[sample$sample2_2])
+        xlowlim <- floor(pop$mu2_diff   - 3.5*sqrt((var(pop$population2_1)+var(pop$population2_2))/10))
+        xuplim  <- ceiling(pop$mu2_diff + 3.5*sqrt((var(pop$population2_1)+var(pop$population2_2))/10))
+        
+      }
+      sample$means2_1      <- c(sample$means2_1, mean(pop$population2_1[sample$sample2_1]))
+      sample$means2_2      <- c(sample$means2_2, mean(pop$population2_2[sample$sample2_2]))
+      sample$means2_diff   <- c(sample$means2_diff, mean(pop$population2_1[sample$sample2_1])-mean(pop$population2_2[sample$sample2_2]))
+    }
   }
   )
   
@@ -421,8 +483,8 @@ server <- function(input, output, session) {
           scale_y_continuous(NULL, breaks = NULL) +
           theme(legend.position = "none") +
           annotate("text", x = Inf, y = Inf, hjust = 1, vjust = 1,
-                   label = paste0("M = ", round(mean(pop$population[sample$sample]), 2)), 
-                   size = 5, color = 'red') +
+                   label = paste0("italic(M) == ", round(mean(pop$population[sample$sample]), 2)), 
+                   parse = TRUE, size = 5, color = 'red') +
           geom_point(aes(x=mean(pop$population[sample$sample]), y = 0), shape = 25, 
                      size = 4.5, colour= "red", fill = "red")
       }
@@ -518,11 +580,9 @@ server <- function(input, output, session) {
           scale_y_continuous(NULL, breaks = NULL) +
           xlim(xlow2, xup2) +
           theme(legend.position = "none") +
-          # geom_text(x = Inf, y = Inf, label = paste0("M1 = ", round(mean(pop$population2_1[sample$sample2_1]), 2)), 
-          #           hjust = 1, vjust = 1, size=5, color = 'red') +
           annotate("text", x = Inf, y = Inf, hjust = 1, vjust = 1,
-                   label = paste0("M1 = ", round(mean(pop$population2_1[sample$sample2_1]), 2)), 
-                   size = 5, color = 'red') +
+                   label = paste0("italic(M[1]) == ", round(mean(pop$population2_1[sample$sample2_1]), 2)), 
+                   parse = TRUE, size = 5, color = 'red') +
           geom_point(aes(x=mean(pop$population2_1[sample$sample2_1]), y = 0), shape = 25, 
                      size = 3.7, colour= "red", fill = "red")
         
@@ -533,11 +593,9 @@ server <- function(input, output, session) {
           scale_y_continuous(NULL, breaks = NULL) +
           xlim(xlow2, xup2) +
           theme(legend.position = "none") +
-          # geom_text(x = Inf, y = Inf, label = paste0("M2 = ", round(mean(pop$population2_2[sample$sample2_2]), 2)), 
-          #           hjust = 1, vjust = 1, size=5, color = 'red') +
           annotate("text", x = Inf, y = Inf, hjust = 1, vjust = 1,
-                   label = paste0("M2 = ", round(mean(pop$population2_2[sample$sample2_2]), 2)), 
-                   size = 5, color = 'red') +
+                   label = paste0("italic(M[2]) == ", round(mean(pop$population2_2[sample$sample2_2]), 2)), 
+                   parse = TRUE, size = 5, color = 'red') +
           geom_point(aes(x=mean(pop$population2_2[sample$sample2_2]), y = 0), shape = 25, 
                      size = 3.7, colour= "red", fill = "red")
         
@@ -562,7 +620,7 @@ server <- function(input, output, session) {
       samptable <- cbind(format(n_samples, nsmall = 0), 
                          format(mean_sampmean, digits = 2, nsmall = 2), 
                          format(sd_sampmean, digits = 2, nsmall = 2))
-      colnames(samptable) <- c("Number of samples", "Mean of sample means", "SD of sample means")
+      colnames(samptable) <- c("Number of samples", "Mean of sample means", "Standard error")
       
       samptable
     }
@@ -582,7 +640,7 @@ server <- function(input, output, session) {
       samptable2 <- cbind(format(n_samples2, nsmall = 0), 
                          format(mean_sampmean2, digits = 2, nsmall = 2), 
                          format(sd_sampmean2, digits = 2, nsmall = 2))
-      colnames(samptable2) <- c("Number of samples", "Mean of sample differences in means", "SD of sample differences in means")
+      colnames(samptable2) <- c("Number of samples", "Mean of sample differences in means", "Standard error")
       
       samptable2
     }
@@ -629,7 +687,9 @@ server <- function(input, output, session) {
       yy <- c(sampfreq, sampfreq, sampfreq-1, sampfreq-1)
       
       polygon(x = xx, y = yy, col = "red", density = 100, angle = 0, border = "black")
-      legend("topright", paste0("M = ", round(mean(pop$population[sample$sample]), 2)), bty ="n", cex = 1, text.col = 'red')
+      
+      # add text with value of last sample mean to plot
+      legend("topright", legend = bquote(italic('M') == .(round(mean(pop$population[sample$sample]), 2))), bty ="n", cex = 1, text.col = 'red')
       
     }
   }
@@ -677,7 +737,9 @@ server <- function(input, output, session) {
       yy <- c(sampfreq, sampfreq, sampfreq-1, sampfreq-1)
       
       polygon(x = xx, y = yy, col = "red", density = 100, angle = 0, border = "black")
-      legend("topright", paste0("M1-M2 = ", round(mean(pop$population2_1[sample$sample2_1])-mean(pop$population2_2[sample$sample2_2]), 2)), 
+      
+      # add text with value of last sample difference in means to plot
+      legend("topright", legend = bquote(italic(M[1]-M[2]) == .(round(mean(pop$population2_1[sample$sample2_1])-mean(pop$population2_2[sample$sample2_2]), 2))), 
              bty ="n", cex = 1, text.col = 'red')
       
     }

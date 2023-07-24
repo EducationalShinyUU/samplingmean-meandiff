@@ -1,13 +1,13 @@
 # Copyright statement:
-# This shiny apllication is developed by Lientje Maas to be used for educational purposes.
-# Is is part of a program sponsered by the Education Incentive Funds of Utrecht University. 
-# The lay-out for the shiny applications for this program is developed by Kimberley Lek. 
-# The application is licensed under the ?? GNU General Public License V3.0 - decision on this? ?? 
+# This shiny application is developed by Lientje Maas to be used for educational purposes.
+# Is is part of a program sponsored by the Education Incentive Funds of Utrecht University. 
+# The layout for the shiny applications for this program is developed by Kimberley Lek. 
+# The application is licensed under the GNU General Public License V3.0
 
 # Author Comment:
 # I have tried to code this according to the Google R Style Guide to improve readability:
 # https://google.github.io/styleguide/Rguide.xml
-# For any quenstions or comments you can contact me at j.a.m.maas@uu.nl.
+# For any questions or comments you can contact me at j.a.m.maas@uu.nl.
 
 # File description:
 # This file contains the user interface (UI) for the application related to sampling distributions.
@@ -148,6 +148,9 @@ dashboardBody(
                           actionButton("sample10button", HTML("Show next<br/>10 samples")), # add ten new samples
                           br(),
                           br(),
+                          actionButton("sample1000button", HTML("Show next<br/>1000 samples")), # add thousand new samples
+                          br(),
+                          br(),
                           actionButton("reset", "Reset") # action button to restart with clean plot
                           ),
                    column( width = 10, align = "left",
@@ -182,6 +185,9 @@ dashboardBody(
                            br(),
                            br(),
                            actionButton("sample10button2", HTML("Show next<br/>10 samples")), # add ten new samples
+                           br(),
+                           br(),
+                           actionButton("sample1000button2", HTML("Show next<br/>1000 samples")), # add thousand new samples
                            br(),
                            br(),
                            actionButton("reset2", "Reset") # action button to restart with clean plot
